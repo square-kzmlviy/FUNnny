@@ -1,15 +1,16 @@
-#include<avr/io.h>
+ï»¿#include<avr/io.h>
 #define F_cpu = 1000000 UL
 #include <util/delay.h>
 #include "stdSerialCOM.h"
 #include <avr/interrupt.h>
 #define M 100UL
+//Gitãƒ†ã‚¹ãƒˆ
 
 unsigned long Bias = 0b00000000000000001;
 //unsigned long Bias = 0b 0 . 0000 0000 0000 0001;
 
 
-/* debug—p‘—Mƒf[ƒ^ */
+/* debugç”¨é€ä¿¡ãƒ‡ãƒ¼ã‚¿ */
 char in_data[8];
 
 /* SHT_MSB */
@@ -18,58 +19,58 @@ unsigned char St_MSB;
 /* SHT_LSB */
 unsigned char St_LSB;
 
-/* ‰·“x’lŒvZ—pƒoƒbƒtƒ@ */
+/* æ¸©åº¦å€¤è¨ˆç®—ç”¨ãƒãƒƒãƒ•ã‚¡ */
 int buff;
 
-/* ‰·“x’lij */
+/* æ¸©åº¦å€¤ï¼ˆâ„ƒï¼‰ */
 unsigned char d_T;
 
 
-/* St_MSB + St_LSB‚Ì16bitƒf[ƒ^ */
+/* St_MSB + St_LSBã®16bitãƒ‡ãƒ¼ã‚¿ */
 unsigned long srh;
 
 
-/* i’»Šm”F•Ï” */
+/* é€²æ—ç¢ºèªå¤‰æ•° */
 static char progress = 0;
 
 
-/* LCDƒAƒhƒŒƒX‘—MŠm”Fƒtƒ‰ƒO */
+/* LCDã‚¢ãƒ‰ãƒ¬ã‚¹é€ä¿¡ç¢ºèªãƒ•ãƒ©ã‚° */
 char flg_lcd=0;
 
-/* ƒ^ƒXƒN‰ßd‰ñ”ğ */
+/* ã‚¿ã‚¹ã‚¯éé‡å›é¿ */
 char ISR_cnt = 0;
 
 
-/* main ISR“¯Šú */
-char main_flg=0;//ƒƒCƒ“‚ğ’Ê‰ß
-/* •Ï”progress‚Ì•ÏˆÊ */
+/* main ISRåŒæœŸ */
+char main_flg=0;//ãƒ¡ã‚¤ãƒ³ã‚’é€šé
+/* å¤‰æ•°progressã®å¤‰ä½ */
 //----------------------
-// 0 | lcd‰Šú‰»‘O
+// 0 | lcdåˆæœŸåŒ–å‰
 //----------------------
-// 1 | lcd‰Šú‰»Ï‚İ
+// 1 | lcdåˆæœŸåŒ–æ¸ˆã¿
 //----------------------
-// 2 | lcd•\¦Š®—¹
+// 2 | lcdè¡¨ç¤ºå®Œäº†
 //----------------------
-// 3 | SHT	ƒRƒ}ƒ“ƒh‘—M‘O
+// 3 | SHT	ã‚³ãƒãƒ³ãƒ‰é€ä¿¡å‰
 //----------------------
-// 4 | SHT@ƒRƒ}ƒ“ƒh‘—MÏ‚İ
+// 4 | SHTã€€ã‚³ãƒãƒ³ãƒ‰é€ä¿¡æ¸ˆã¿
 //----------------------
 
 
 
-/* Š„‚İ TWIŠ„‚İ */
+/* å‰²è¾¼ã¿ TWIå‰²è¾¼ã¿ */
 ISR(TWI_vect)
 {
 	/***************************************************************************/
 	/***************************************************************************/
 
-	/* LCD‰Šú‰»ƒf[ƒ^ */
+	/* LCDåˆæœŸåŒ–ãƒ‡ãƒ¼ã‚¿ */
 	char i2c_init[] = {0x38,0x39,0x14,0x70,0x52,0x6c,0x38,0x0c,0x01};
 
-	/* LCD•\¦ƒf[ƒ^ */
+	/* LCDè¡¨ç¤ºãƒ‡ãƒ¼ã‚¿ */
 	char input_data[] = {0b10000000,(0x40|0b10000000),0b01000000,'0','0','0'};
 
-	/* LCD•\¦ƒf[ƒ^QƒJƒEƒ“ƒg */
+	/* LCDè¡¨ç¤ºãƒ‡ãƒ¼ã‚¿ï¼¿ã‚«ã‚¦ãƒ³ãƒˆ */
 	char init = 0;
 
 
@@ -78,92 +79,92 @@ ISR(TWI_vect)
 	/***************************************************************************/
 	convert_to_binary_number_serialconnect(progress,in_data,'p');
 	convert_to_binary_number_serialconnect(TWSR,in_data,'s');
-	/* main“¯Šú */
+	/* mainåŒæœŸ */
 	if(main_flg == 1)
 	{
-		/* ƒXƒe[ƒ^ƒXƒŒƒWƒXƒ^•ªŠò ãˆÊ5bit‚ÌŠm”F*/
+		/* ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒ¬ã‚¸ã‚¹ã‚¿åˆ†å² ä¸Šä½5bitã®ç¢ºèª*/
 		
 		switch(TWSR & 0xF8)
 		{
-			/* ŠJnğŒ‘—M */
+			/* é–‹å§‹æ¡ä»¶é€ä¿¡ */
 			case 0x08:
 			
 				convert_to_binary_number_serialconnect(progress,in_data,'8');
-				/* LCD‰Šú‰»‘O ‚©@LCD‰Šú‰»Ï */
+				/* LCDåˆæœŸåŒ–å‰ ã‹ã€€LCDåˆæœŸåŒ–æ¸ˆ */
 				if((progress == 0) || (progress == 1) )
 				{
-					/* SLA+W AQM0802‚ÌƒAƒhƒŒƒX */
+					/* SLA+W AQM0802ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ */
 					TWDR = 0x7C;
-					/* ƒtƒ‰ƒO—‚Æ‚µ ‘—MTWINT TWEN TWIE*/
+					/* ãƒ•ãƒ©ã‚°è½ã¨ã— é€ä¿¡TWINT TWEN TWIE*/
 					TWCR = 0b10000101;
-					/* ACK‘Ò‚¿Š„‚İ—§‚¿ã‚ª‚è‚Å‚Æ‚é */
+					/* ACKå¾…ã¡å‰²è¾¼ã¿ç«‹ã¡ä¸ŠãŒã‚Šã§ã¨ã‚‹ */
 					flg_lcd = 1;
 				}
 
-				/* SHT’ÊMƒAƒhƒŒƒX‘—M‘O */
+				/* SHTé€šä¿¡ã‚¢ãƒ‰ãƒ¬ã‚¹é€ä¿¡å‰ */
 				else if(progress == 3)
 				{
-					/* SLA+W AQM0802‚ÌƒAƒhƒŒƒX Ww’è*/
+					/* SLA+W AQM0802ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ WæŒ‡å®š*/
 					TWDR = 0b10001000;
 					TWCR = 0b10000101;
 
-					/* ACK‘Ò‚¿Š„‚İ—§‚¿ã‚ª‚è‚Å‚Æ‚é */
+					/* ACKå¾…ã¡å‰²è¾¼ã¿ç«‹ã¡ä¸ŠãŒã‚Šã§ã¨ã‚‹ */
 				}
 
-				/* SHT’ÊMƒAƒhƒŒƒX‘—MŒãiƒZƒ“ƒT’lóM‘Oj */
+				/* SHTé€šä¿¡ã‚¢ãƒ‰ãƒ¬ã‚¹é€ä¿¡å¾Œï¼ˆã‚»ãƒ³ã‚µå€¤å—ä¿¡å‰ï¼‰ */
 				else if(progress == 4)
 				{
-					/* SLA+W AQM0802‚ÌƒAƒhƒŒƒX rw’è*/
+					/* SLA+W AQM0802ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ ræŒ‡å®š*/
 					TWDR = 0b10001001;
 					TWCR = 0b10000101;
 
-					/* ACK‘Ò‚¿Š„‚İ—§‚¿ã‚ª‚è‚Å‚Æ‚é */
+					/* ACKå¾…ã¡å‰²è¾¼ã¿ç«‹ã¡ä¸ŠãŒã‚Šã§ã¨ã‚‹ */
 				}
 				break;
 
-			/* ŠJnğŒ‘—M */
+			/* é–‹å§‹æ¡ä»¶é€ä¿¡ */
 			case 0x18:
 
-			/* LCD‰Šú‰»‘O */
+			/* LCDåˆæœŸåŒ–å‰ */
 			if(progress==0)
 			{
 				while(init != 9)
 				{
 					convert_to_binary_number_serialconnect(TWSR,in_data,'I');
-					/* ‰Šú‰»ƒf[ƒ^‚ÌŠi”[ */
+					/* åˆæœŸåŒ–ãƒ‡ãƒ¼ã‚¿ã®æ ¼ç´ */
 					TWDR =  i2c_init[init];
 					TWCR = 0b10000101;
-					/* ACK‰“š‘Ò‚¿ */
+					/* ACKå¿œç­”å¾…ã¡ */
 					while(!(TWCR & 0b10000000)	);
 
-					/* d—l‘w’è0x52Œã‚ÌƒfƒBƒŒƒC */
+					/* ä»•æ§˜æ›¸æŒ‡å®š0x52å¾Œã®ãƒ‡ã‚£ãƒ¬ã‚¤ */
 					if(i2c_init[init] == 0x52)_delay_ms(200);
 					init++;
 				}
 				init = 0;
 
-				/* Ÿ‚Ì‘€ì‚Ö@¨lcd‰Šú‰»Ï‚İ */
+				/* æ¬¡ã®æ“ä½œã¸ã€€â†’lcdåˆæœŸåŒ–æ¸ˆã¿ */
 				progress = 1;
 
-				/* TWI’ÊMI—¹@TWINT TWSTO TWEN TWIE  */
+				/* TWIé€šä¿¡çµ‚äº†ã€€TWINT TWSTO TWEN TWIE  */
 				TWCR = 0b10010101;
-				/* STO‚ª—§‚Â‚Ü‚Å‘Ò‚Â */
+				/* STOãŒç«‹ã¤ã¾ã§å¾…ã¤ */
 				while(!(TWCR & (1<<TWSTO))	);
 
 			}
 
-			/* LCD‰Šú‰»Ï@‚©‚Â@ƒAƒhƒŒƒX‘—MÏ‚İ@ */
+			/* LCDåˆæœŸåŒ–æ¸ˆã€€ã‹ã¤ã€€ã‚¢ãƒ‰ãƒ¬ã‚¹é€ä¿¡æ¸ˆã¿ã€€ */
 			else if(progress==1 && flg_lcd == 1)
 			{
 				convert_to_binary_number_serialconnect(progress,in_data,'S');
-				/* Œ…•\¦@ŒvZ—p•Ï”’è‹` */
+				/* æ¡è¡¨ç¤ºã€€è¨ˆç®—ç”¨å¤‰æ•°å®šç¾© */
 				unsigned int b;
 
-				/* •\¦ƒf[ƒ^Ši”[•Ï” */
+				/* è¡¨ç¤ºãƒ‡ãƒ¼ã‚¿æ ¼ç´å¤‰æ•° */
 				unsigned char LCD_3;
 				unsigned char LCD_2;
 				unsigned char LCD_1;
-				/* ƒeƒXƒgƒf[ƒ^ */
+				/* ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ */
 				
 				
 				LCD_3 = d_T/100;
@@ -171,39 +172,39 @@ ISR(TWI_vect)
 				LCD_1 = (d_T - (LCD_3 * 100) ) % 10;
 				
 
-				/* •\¦ƒf[ƒ^‚Ìo—Í */
-				//0b10000000,ƒRƒ}ƒ“ƒhƒf[ƒ^
-				//(0x40|0b10000000),À•WDB7=1
-				//0b01000000,•\¦ƒf[ƒ^RS=1
-				//'0',•¶šŒ^0+ ®”Œ^•Ï”‚Å•\¦
-				//'0',•¶šŒ^0+ ®”Œ^•Ï”‚Å•\¦
-				//'0',•¶šŒ^0+ ®”Œ^•Ï”‚Å•\¦
+				/* è¡¨ç¤ºãƒ‡ãƒ¼ã‚¿ã®å‡ºåŠ› */
+				//0b10000000,ã‚³ãƒãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿
+				//(0x40|0b10000000),åº§æ¨™DB7=1
+				//0b01000000,è¡¨ç¤ºãƒ‡ãƒ¼ã‚¿RS=1
+				//'0',æ–‡å­—å‹0+ æ•´æ•°å‹å¤‰æ•°ã§è¡¨ç¤º
+				//'0',æ–‡å­—å‹0+ æ•´æ•°å‹å¤‰æ•°ã§è¡¨ç¤º
+				//'0',æ–‡å­—å‹0+ æ•´æ•°å‹å¤‰æ•°ã§è¡¨ç¤º
 
 				while(init != 6)
 				{
 					//convert_to_binary_number_serialconnect(TWSR,in_data,'O');
-					/* 3Œ…–Ú */
+					/* 3æ¡ç›® */
 					if(init==3)
 					{
-						/* 3Œ…–Ú•\¦ */
+						/* 3æ¡ç›®è¡¨ç¤º */
 						TWDR = input_data[init]+(d_T/100);
 						b = d_T/100;
 						d_T = d_T - (b*100);
 					}
 
-					/* 2Œ…–Ú */
+					/* 2æ¡ç›® */
 					else if(init==4)
 					{
 						TWDR = input_data[init]+(d_T/10);
 					}
 
-					/* 3Œ…–Ú */
+					/* 3æ¡ç›® */
 					else if(init==5)
 					{
 						TWDR = input_data[init]+(d_T%10);
 					}
 
-					/* ã‹LˆÈŠO‚ÌŒ… */
+					/* ä¸Šè¨˜ä»¥å¤–ã®æ¡ */
 					else
 					{
 						TWDR = input_data[init];
@@ -217,40 +218,40 @@ ISR(TWI_vect)
 				
 				init = 0;
 
-				/* Ÿ‚Ì‘€ì‚Ö@¨SHT	ƒRƒ}ƒ“ƒh‘—M‘O */
+				/* æ¬¡ã®æ“ä½œã¸ã€€â†’SHT	ã‚³ãƒãƒ³ãƒ‰é€ä¿¡å‰ */
 				progress = 3;
 				ISR_cnt = 0;
 
-				/* ’ÊMI—¹ */
+				/* é€šä¿¡çµ‚äº† */
 				TWCR = 0b10010101;
-				/* STO‚ª—§‚Â‚Ü‚Å‘Ò‚Â */
+				/* STOãŒç«‹ã¤ã¾ã§å¾…ã¤ */
 				while(!(TWCR & (1<<TWSTO))	);
 			}
 
-			/* SHT	ƒRƒ}ƒ“ƒh‘—M‘O */
+			/* SHT	ã‚³ãƒãƒ³ãƒ‰é€ä¿¡å‰ */
 			else if(progress==3)
 			{
-				/* ƒRƒ}ƒ“ƒhƒR[ƒh‘—M */
+				/* ã‚³ãƒãƒ³ãƒ‰ã‚³ãƒ¼ãƒ‰é€ä¿¡ */
 
-				/* ƒNƒƒXƒXƒgƒŒƒbƒ`—LŒø */
+				/* ã‚¯ãƒ­ã‚¹ã‚¹ãƒˆãƒ¬ãƒƒãƒæœ‰åŠ¹ */
 				TWDR = 0x2c;
 				TWCR = 0b10000101;
 				while(!(TWCR & 0b10000000)	);
 
-				/* ŒJ‚è•Ô‚µƒŒƒxƒ‹’† */
+				/* ç¹°ã‚Šè¿”ã—ãƒ¬ãƒ™ãƒ«ä¸­ */
 				TWDR = 0x0d;
 				TWCR = 0b10000101;
 				while(!(TWCR & 0b10000000)	);
 
 				/* *************** */
 
-				/* Ÿ‚Ì‘€ì‚Ö@¨ƒRƒ}ƒ“ƒh‘—MÏ‚İ*/
+				/* æ¬¡ã®æ“ä½œã¸ã€€â†’ã‚³ãƒãƒ³ãƒ‰é€ä¿¡æ¸ˆã¿*/
 				ISR_cnt = 0;
 				progress = 4;
 
-				/* ’ÊMI—¹ */
+				/* é€šä¿¡çµ‚äº† */
 				TWCR = 0b10010101;
-				/* STO‚ª—§‚Â‚Ü‚Å‘Ò‚Â */
+				/* STOãŒç«‹ã¤ã¾ã§å¾…ã¤ */
 				while(!(TWCR & (1<<TWSTO))	);
 			}
 
@@ -258,30 +259,30 @@ ISR(TWI_vect)
 
 			case 0x40:
 
-				/* ƒNƒƒXƒXƒgƒŒƒbƒ` */
+				/* ã‚¯ãƒ­ã‚¹ã‚¹ãƒˆãƒ¬ãƒƒãƒ */
 
-				/* ‰·“xƒf[ƒ^óM@MSB,LSB,CRC */
+				/* æ¸©åº¦ãƒ‡ãƒ¼ã‚¿å—ä¿¡ã€€MSB,LSB,CRC */
 
-				/* MSBóM‘Ò‚¿iACK‚È‚µj */
+				/* MSBå—ä¿¡å¾…ã¡ï¼ˆACKãªã—ï¼‰ */
 				while(!(TWCR & 0b10000000)	);
 				convert_to_binary_number_serialconnect(TWDR,in_data,'$');
-				/* ACK‰“š */
+				/* ACKå¿œç­” */
 				TWCR = 0b11000101;
 
-				/* LSBóM‘Ò‚¿ */
+				/* LSBå—ä¿¡å¾…ã¡ */
 				while(!(TWCR & 0b10000000)	);
 				convert_to_binary_number_serialconnect(TWDR,in_data,'+');
 				St_MSB = TWDR;
 				
-				/* ACK‰“š */
+				/* ACKå¿œç­” */
 				TWCR = 0b11000101;
 
-				/* CRCóM‘Ò‚¿iACK‚È‚µj */
+				/* CRCå—ä¿¡å¾…ã¡ï¼ˆACKãªã—ï¼‰ */
 				while(!(TWCR & 0b10000000)	);
 				convert_to_binary_number_serialconnect(TWDR,in_data,'-');
 				St_LSB = TWDR;
 				
-				/* ACK‰“š */
+				/* ACKå¿œç­” */
 				TWCR = 0b11000101;
 
 				/* ************************** */
@@ -295,34 +296,34 @@ ISR(TWI_vect)
 				
 				
 
-				/* ¼“xƒf[ƒ^óM@MSB,LSB,CRC */
+				/* æ¹¿åº¦ãƒ‡ãƒ¼ã‚¿å—ä¿¡ã€€MSB,LSB,CRC */
 
-				/* MSBóM‘Ò‚¿iACK‚È‚µj */
+				/* MSBå—ä¿¡å¾…ã¡ï¼ˆACKãªã—ï¼‰ */
 				while(!(TWCR & 0b10000000)	);
-				/* ACK‰“š */
+				/* ACKå¿œç­” */
 				convert_to_binary_number_serialconnect(d_T,in_data,'=');
 				TWCR = 0b11000101;
 
-				/* LSBóM‘Ò‚¿ */
+				/* LSBå—ä¿¡å¾…ã¡ */
 				while(!(TWCR & 0b10000000)	);
 				convert_to_binary_number_serialconnect(d_T,in_data,'/');
-				/* ACK‰“š */
+				/* ACKå¿œç­” */
 				TWCR = 0b11000101;
 
-				/* CRCóM‘Ò‚¿iACK‚È‚µj */
+				/* CRCå—ä¿¡å¾…ã¡ï¼ˆACKãªã—ï¼‰ */
 				while(!(TWCR & 0b10000000)	);
-				/* ACK‰“š */
-				TWCR = 0b10000101;//nack‰“š
+				/* ACKå¿œç­” */
+				TWCR = 0b10000101;//nackå¿œç­”
 				while(!(TWCR & 0b10000000)	);
 
 				/* ************************** */
 
-				/* Ÿ‚Ì‘€ì‚Ö@¨LCD‰Šú‰»Ï‚İiLCDÄ•`‰æj */
+				/* æ¬¡ã®æ“ä½œã¸ã€€â†’LCDåˆæœŸåŒ–æ¸ˆã¿ï¼ˆLCDå†æç”»ï¼‰ */
 				
 
-				/* ’ÊMI—¹ */
+				/* é€šä¿¡çµ‚äº† */
 				TWCR = 0b10010101;
-				/* STO‚ª—§‚Â‚Ü‚Å‘Ò‚Â */
+				/* STOãŒç«‹ã¤ã¾ã§å¾…ã¤ */
 				while(!(TWCR & (1<<TWSTO))	);
 				
 				ISR_cnt = 0;
@@ -350,7 +351,7 @@ int main(void)
 	DDRB  = 0b00000000;//
 	PORTB = 0B00000010;//	PB1 PUR_ON
 	
-	TWBR  = 0b11111111;//SCL ü”g”
+	TWBR  = 0b11111111;//SCL å‘¨æ³¢æ•°
 	TWSR  = 0b00000000;//1.9kHz
 	
 	
@@ -363,34 +364,34 @@ int main(void)
 	char flag = 0;
 	
 	sei();
-	/* main‚ğ’Ê‰ß */
+	/* mainã‚’é€šé */
 	main_flg = 1;
 
-	/* ’ÊMŠJn TWINT TWSTA TWEN TWIE*/
-	TWCR = 0b10100101;//ƒtƒ‰ƒO‰º‚°@ŠJn@twi—LŒø
+	/* é€šä¿¡é–‹å§‹ TWINT TWSTA TWEN TWIE*/
+	TWCR = 0b10100101;//ãƒ•ãƒ©ã‚°ä¸‹ã’ã€€é–‹å§‹ã€€twiæœ‰åŠ¹
 	while(!(TWCR & 0b10000000)	);
 	
 	while (1){
-		/* main‚ğ’Ê‰ß */
+		/* mainã‚’é€šé */
 		main_flg = 1;
 		
 		if(progress == 1 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
-			TWCR = 0b10100101;//ƒtƒ‰ƒO‰º‚°@ŠJn@twi—LŒø
+			TWCR = 0b10100101;//ãƒ•ãƒ©ã‚°ä¸‹ã’ã€€é–‹å§‹ã€€twiæœ‰åŠ¹
 			ISR_cnt = 1;
 			
 		}
 		
 		else if(progress == 3 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
-			TWCR = 0b10100101;//ƒtƒ‰ƒO‰º‚°@ŠJn@twi—LŒø@MSB_0x2C LSB_0x0D
+			TWCR = 0b10100101;//ãƒ•ãƒ©ã‚°ä¸‹ã’ã€€é–‹å§‹ã€€twiæœ‰åŠ¹ã€€MSB_0x2C LSB_0x0D
 			ISR_cnt = 1;
 			
 		}
 		
 		else if(progress == 4 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
-			TWCR = 0b10100101;//ƒtƒ‰ƒO‰º‚°@ŠJn ‘ª’è’lóM
+			TWCR = 0b10100101;//ãƒ•ãƒ©ã‚°ä¸‹ã’ã€€é–‹å§‹ æ¸¬å®šå€¤å—ä¿¡
 			ISR_cnt = 1;
 			
 			
