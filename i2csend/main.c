@@ -40,6 +40,15 @@ char flg_lcd=0;
 /* タスク過重回避 */
 char ISR_cnt = 0;
 
+/* 秒のデータ */
+char sec_data;
+
+/* 分のデータ */
+char min_data;
+
+/* 時のデータ */
+char hour_data;
+
 
 /* main ISR同期 */
 char main_flg=0;//メインを通過
