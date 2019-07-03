@@ -463,7 +463,9 @@ ISR(TWI_vect)
 
 					/* ************************** */
 
-				
+					/* 次の操作へ　→RTC設定前 */
+					ISR_cnt = 0;
+					progress = 5;
 				
 
 					/* 通信終了 */
@@ -471,9 +473,7 @@ ISR(TWI_vect)
 					/* STOが立つまで待つ */
 					while(!(TWCR & (1<<TWSTO))	);
 				
-					/* 次の操作へ　→RTC設定前 */
-					ISR_cnt = 0;
-					progress = 5;
+					
 				}
 				
 				else if(progress == 6)
