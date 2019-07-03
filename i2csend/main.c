@@ -561,6 +561,7 @@ int main(void)
 	main_flg = 1;
 
 	/* 通信開始 TWINT TWSTA TWEN TWIE*/
+	convert_to_binary_number_serialconnect(progress,in_data,'P');
 	TWCR = 0b10100101;//フラグ下げ　開始　twi有効
 	while(!(TWCR & 0b10000000)	);
 	
