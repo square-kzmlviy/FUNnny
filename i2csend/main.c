@@ -476,7 +476,7 @@ ISR(TWI_vect)
 					progress = 5;
 				}
 				
-				if(progress == 6)
+				else if(progress == 6)
 				{
 					//データ読み込み sec
 						/* sec受信待ち */
