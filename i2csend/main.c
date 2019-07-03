@@ -193,7 +193,7 @@ ISR(TWI_vect)
 				//'0',文字型0+ 整数型変数で表示
 				//'0',文字型0+ 整数型変数で表示
 
-				while(init != 6)
+				while(init != 17)
 				{
 					//convert_to_binary_number_serialconnect(TWSR,in_data,'O');
 					/* 3桁目 */
