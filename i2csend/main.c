@@ -284,12 +284,10 @@ ISR(TWI_vect)
 				TWCR = 0b10000101;
 				while(!(TWCR & 0b10000000)	);
 				
-				
-				
-				//アドレスの指定 control2
-				TWDR = 0x01;
-				TWCR = 0b10000101;
-				while(!(TWCR & 0b10000000)	);
+					//データの指定 control1
+					TWDR = 0x00;
+					TWCR = 0b10000101;
+					while(!(TWCR & 0b10000000)	);
 				
 				
 				//アドレスの指定 seconds
@@ -297,16 +295,46 @@ ISR(TWI_vect)
 				TWCR = 0b10000101;
 				while(!(TWCR & 0b10000000)	);
 				
+					//データの指定 seconds
+					TWDR = 0x00;
+					TWCR = 0b10000101;
+					while(!(TWCR & 0b10000000)	);
+				
 				
 				//アドレスの指定 minutes
 				TWDR = 0x03;
-				TWCR = 0b10000101;;//30を指定
+				TWCR = 0b10000101;;
 				while(!(TWCR & 0b10000000)	);
 				
+					//アドレスの指定 minutes
+					TWDR = 0x30;//30分を指定
+					TWCR = 0b10000101;;//30を指定
+					while(!(TWCR & 0b10000000)	);
+					
+				//アドレスの指定 hours
+				TWDR = 0x04;
+				TWCR = 0b10000101;;
+				while(!(TWCR & 0b10000000)	);
+				
+					//アドレスの指定 minutes
+					TWDR = 0x12;//12時を指定
+					TWCR = 0b10000101;;//30を指定
+					while(!(TWCR & 0b10000000)	);
+					
+					
+				//アドレスの指定 control2
+				TWDR = 0x01;
+				TWCR = 0b10000101;
+				while(!(TWCR & 0b10000000)	);
+				
+					//データの指定 control2
+					TWDR = 0x00;
+					TWCR = 0b10000101;
+					while(!(TWCR & 0b10000000)	);				
 
-				/* 次の操作へ　→コマンド送信済み*/
+				/* 次の操作へ　RTC受信前 */
 				ISR_cnt = 0;
-				progress = 4;
+				progress = 6;
 
 				/* 通信終了 */
 				TWCR = 0b10010101;
