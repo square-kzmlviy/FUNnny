@@ -327,7 +327,6 @@ ISR(TWI_vect)
 						}
 						TWCR = 0b10000101;
 						while(!(TWCR & 0b10000000)	);
-						convert_to_binary_number_serialconnect(progress,in_data,TWDR);
 						init++;
 						
 						
@@ -376,6 +375,7 @@ ISR(TWI_vect)
 			
 			else if(progress==5)
 			{
+				convert_to_binary_number_serialconnect(progress,in_data,TWDR);
 				//アドレスの指定 control1
 				TWDR = 0x00;
 				TWCR = 0b10000101;
@@ -508,6 +508,7 @@ ISR(TWI_vect)
 
 					/* 次の操作へ　→RTC設定前 */
 					progress = 5;
+					convert_to_binary_number_serialconnect(progress,in_data,'k');
 					ISR_cnt = 0;
 					
 				
@@ -522,12 +523,14 @@ ISR(TWI_vect)
 				
 				else if(progress == 6)
 				{
+					convert_to_binary_number_serialconnect(progress,in_data,'R');
 					//データ読み込み sec
 						/* sec受信待ち */
 						while(!(TWCR & 0b10000000)	);
 						
 						/* データ格納 */
 						min_data = TWDR;
+						convert_to_binary_number_serialconnect(TWDR,in_data,'R');
 						
 						/* ACK応答 */
 						TWCR = 0b11000101;
@@ -538,6 +541,7 @@ ISR(TWI_vect)
 						
 						/* データ格納 */
 						min_data = TWDR;
+						convert_to_binary_number_serialconnect(TWDR,in_data,'R');
 						
 						/* ACK応答 */
 						TWCR = 0b11000101;
@@ -548,6 +552,7 @@ ISR(TWI_vect)
 						
 						/* データ格納 */
 						hour_data = TWDR;
+						convert_to_binary_number_serialconnect(TWDR,in_data,'R');
 						
 						/* NACK応答 */
 						TWCR = 0b10000101;
@@ -629,7 +634,7 @@ int main(void)
 		
 		/* SHTデータ受信 */
 		else if(progress == 4 && ISR_cnt == 0){
-			convert_to_binary_number_serialconnect(progress,in_data,'P');
+			convert_to_binary_number_serialconnect(progress,in_data,'T');
 			TWCR = 0b10100101;//フラグ下げ　開始 測定値受信
 			ISR_cnt = 1;
 			
