@@ -439,6 +439,36 @@ ISR(TWI_vect)
 					ISR_cnt = 0;
 					progress = 5;
 				}
+				
+				if(progress == 6)
+				{
+					//データ読み込み sec
+						/* sec受信待ち */
+						while(!(TWCR & 0b10000000)	);
+						/* ACK応答 */
+						TWCR = 0b11000101;
+						
+					//データ読み込み min
+						/* min受信待ち */
+						while(!(TWCR & 0b10000000)	);
+						/* ACK応答 */
+						TWCR = 0b11000101;
+						
+					//データ読み込み hour
+						/* hour受信待ち */
+						while(!(TWCR & 0b10000000)	);
+						/* ACK応答 */
+						TWCR = 0b11000101;
+
+					/* 次の操作へ　RTC受信前 */
+					ISR_cnt = 0;
+					progress = 6;
+
+					/* 通信終了 */
+					TWCR = 0b10010101;
+					/* STOが立つまで待つ */
+					while(!(TWCR & (1<<TWSTO))	);
+				}
 
 				break;
 
