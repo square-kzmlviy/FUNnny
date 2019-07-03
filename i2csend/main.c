@@ -276,6 +276,31 @@ ISR(TWI_vect)
 				/* STOが立つまで待つ */
 				while(!(TWCR & (1<<TWSTO))	);
 			}
+			
+			else if(progress==5)
+			{
+				//アドレスの指定 control1
+				TWDR = 0x00;
+				TWCR = 0;
+				while(!(TWCR & 0b10000000)	);
+				
+				
+				//
+				//アドレスの指定 control2
+				TWDR = 0x01;
+				TWCR = 0;
+				while(!(TWCR & 0b10000000)	);
+				
+
+				/* 次の操作へ　→コマンド送信済み*/
+				ISR_cnt = 0;
+				progress = 4;
+
+				/* 通信終了 */
+				TWCR = 0b10010101;
+				/* STOが立つまで待つ */
+				while(!(TWCR & (1<<TWSTO))	);
+			}
 
 			break;
 
