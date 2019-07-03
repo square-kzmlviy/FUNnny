@@ -549,8 +549,8 @@ ISR(TWI_vect)
 						/* データ格納 */
 						hour_data = TWDR;
 						
-						/* ACK応答 */
-						TWCR = 0b11000101;
+						/* NACK応答 */
+						TWCR = 0b10000101;
 
 					/* 次の操作へ　→LCD描画 */
 					progress = 3;
