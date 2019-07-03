@@ -468,6 +468,10 @@ ISR(TWI_vect)
 					TWCR = 0b10010101;
 					/* STOが立つまで待つ */
 					while(!(TWCR & (1<<TWSTO))	);
+					
+					/* 次の操作へ　→LCD描画 */
+					ISR_cnt = 1;
+					progress = 5;
 				}
 
 				break;
