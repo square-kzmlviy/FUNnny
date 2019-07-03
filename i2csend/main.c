@@ -133,6 +133,15 @@ ISR(TWI_vect)
 
 					/* ACK待ち割込み立ち上がりでとる */
 				}
+				/* SHT通信アドレス送信後（センサ値受信前） */
+				if((progress == 5)/* || (progress == 1) */)
+				{
+					/* SLA+W AQM0802のアドレス */
+					TWDR = 0xC2|0b00000000;//W
+					/* フラグ落とし 送信TWINT TWEN TWIE*/
+					TWCR = 0b10000101;
+					/* ACK待ち割込み立ち上がりでとる */
+				}
 				break;
 
 			/* 開始条件送信 */
