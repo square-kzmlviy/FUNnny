@@ -244,6 +244,42 @@ ISR(TWI_vect)
 					{
 						TWDR = input_data[init]+(d_T%10);
 					}
+					
+					/* 時間2桁目 */
+					else if(init==9)
+					{
+						TWDR = input_data[init]+(hour_data/10);
+					}
+					
+					/* 時間1桁目 */
+					else if(init==10)
+					{
+						TWDR = input_data[init]+(hour_data%10);
+					}
+					
+					/* 分2桁目 */
+					else if(init==12)
+					{
+						TWDR = input_data[init]+(min_data/10);
+					}
+					
+					/* 分1桁目 */
+					else if(init==12)
+					{
+						TWDR = input_data[init]+(min_data%10);
+					}
+					
+					/* 秒2桁目 */
+					else if(init==12)
+					{
+						TWDR = input_data[init]+(sec_data/10);
+					}
+					
+					/* 秒1桁目 */
+					else if(init==12)
+					{
+						TWDR = input_data[init]+(sec_data%10);
+					}
 
 					/* 上記以外の桁 */
 					else
