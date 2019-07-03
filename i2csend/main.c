@@ -388,13 +388,14 @@ int main(void)
 		/* mainを通過 */
 		main_flg = 1;
 		
+		/* LCD初期化 */
 		if(progress == 1 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
 			TWCR = 0b10100101;//フラグ下げ　開始　twi有効
 			ISR_cnt = 1;
 			
 		}
-		
+		/* SHTコマンド送信前 */
 		else if(progress == 3 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
 			TWCR = 0b10100101;//フラグ下げ　開始　twi有効　MSB_0x2C LSB_0x0D
@@ -402,6 +403,7 @@ int main(void)
 			
 		}
 		
+		/* SHTデータ受信 */
 		else if(progress == 4 && ISR_cnt == 0){
 			convert_to_binary_number_serialconnect(progress,in_data,'P');
 			TWCR = 0b10100101;//フラグ下げ　開始 測定値受信
