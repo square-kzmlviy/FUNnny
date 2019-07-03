@@ -284,7 +284,7 @@ ISR(TWI_vect)
 						
 						
 						/* 時間2桁目 */
-						else if(init==9)
+						if(init==9)
 						{
 							TWDR = input_data1[init]+(hour_data/10);
 						}
