@@ -147,7 +147,7 @@ ISR(TWI_vect)
 				else if((progress == 5)/* || (progress == 1) */)
 				{
 					/* SLA+W AQM0802のアドレス */
-					TWDR = 0xC2|0b00000000;//W
+					TWDR = 0xA2|0b00000000;//W
 					/* フラグ落とし 送信TWINT TWEN TWIE*/
 					TWCR = 0b10000101;
 					/* ACK待ち割込み立ち上がりでとる */
@@ -156,7 +156,7 @@ ISR(TWI_vect)
 				else if((progress == 6)/* || (progress == 1) */)
 				{
 					/* SLA+W AQM0802のアドレス */
-					TWDR = 0xC2|0b00000001;//r
+					TWDR = 0xA2|0b00000001;//r
 					/* フラグ落とし 送信TWINT TWEN TWIE*/
 					TWCR = 0b10000101;
 					/* ACK待ち割込み立ち上がりでとる */
@@ -279,7 +279,7 @@ ISR(TWI_vect)
 				
 				else if(line == 1)
 				{
-					while(init != 6)
+					while(init != 11)
 					{
 						
 						
