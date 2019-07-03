@@ -445,18 +445,30 @@ ISR(TWI_vect)
 					//データ読み込み sec
 						/* sec受信待ち */
 						while(!(TWCR & 0b10000000)	);
+						
+						/* データ格納 */
+						min_data = TWDR;
+						
 						/* ACK応答 */
 						TWCR = 0b11000101;
 						
 					//データ読み込み min
 						/* min受信待ち */
 						while(!(TWCR & 0b10000000)	);
+						
+						/* データ格納 */
+						min_data = TWDR;
+						
 						/* ACK応答 */
 						TWCR = 0b11000101;
 						
 					//データ読み込み hour
 						/* hour受信待ち */
 						while(!(TWCR & 0b10000000)	);
+						
+						/* データ格納 */
+						hour_data = TWDR;
+						
 						/* ACK応答 */
 						TWCR = 0b11000101;
 
