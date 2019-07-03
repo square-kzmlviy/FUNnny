@@ -354,78 +354,82 @@ ISR(TWI_vect)
 
 			break;
 
+			/* SLA+R送信 ACK受信 */
 			case 0x40:
 
-				/* クロスストレッチ */
+				if(progress == 4)
+				{
+					/* クロスストレッチ */
 
-				/* 温度データ受信　MSB,LSB,CRC */
+					/* 温度データ受信　MSB,LSB,CRC */
 
-				/* MSB受信待ち（ACKなし） */
-				while(!(TWCR & 0b10000000)	);
-				convert_to_binary_number_serialconnect(TWDR,in_data,'$');
-				/* ACK応答 */
-				TWCR = 0b11000101;
+					/* MSB受信待ち（ACKなし） */
+					while(!(TWCR & 0b10000000)	);
+					convert_to_binary_number_serialconnect(TWDR,in_data,'$');
+					/* ACK応答 */
+					TWCR = 0b11000101;
 
-				/* LSB受信待ち */
-				while(!(TWCR & 0b10000000)	);
-				convert_to_binary_number_serialconnect(TWDR,in_data,'+');
-				St_MSB = TWDR;
+					/* LSB受信待ち */
+					while(!(TWCR & 0b10000000)	);
+					convert_to_binary_number_serialconnect(TWDR,in_data,'+');
+					St_MSB = TWDR;
 				
-				/* ACK応答 */
-				TWCR = 0b11000101;
+					/* ACK応答 */
+					TWCR = 0b11000101;
 
-				/* CRC受信待ち（ACKなし） */
-				while(!(TWCR & 0b10000000)	);
-				convert_to_binary_number_serialconnect(TWDR,in_data,'-');
-				St_LSB = TWDR;
+					/* CRC受信待ち（ACKなし） */
+					while(!(TWCR & 0b10000000)	);
+					convert_to_binary_number_serialconnect(TWDR,in_data,'-');
+					St_LSB = TWDR;
 				
-				/* ACK応答 */
-				TWCR = 0b11000101;
+					/* ACK応答 */
+					TWCR = 0b11000101;
 
-				/* ************************** */
-				
-				
-				
-				buff = (St_MSB*256+St_LSB);
-				d_T = -45 + ((175 * (buff*Bias)) >> 16);
-				convert_to_binary_number_serialconnect(d_T,in_data,'<');
+					/* ************************** */
 				
 				
 				
+					buff = (St_MSB*256+St_LSB);
+					d_T = -45 + ((175 * (buff*Bias)) >> 16);
+					convert_to_binary_number_serialconnect(d_T,in_data,'<');
+				
+				
+				
 
-				/* 湿度データ受信　MSB,LSB,CRC */
+					/* 湿度データ受信　MSB,LSB,CRC */
 
-				/* MSB受信待ち（ACKなし） */
-				while(!(TWCR & 0b10000000)	);
-				/* ACK応答 */
-				convert_to_binary_number_serialconnect(d_T,in_data,'=');
-				TWCR = 0b11000101;
+					/* MSB受信待ち（ACKなし） */
+					while(!(TWCR & 0b10000000)	);
+					/* ACK応答 */
+					convert_to_binary_number_serialconnect(d_T,in_data,'=');
+					TWCR = 0b11000101;
 
-				/* LSB受信待ち */
-				while(!(TWCR & 0b10000000)	);
-				convert_to_binary_number_serialconnect(d_T,in_data,'/');
-				/* ACK応答 */
-				TWCR = 0b11000101;
+					/* LSB受信待ち */
+					while(!(TWCR & 0b10000000)	);
+					convert_to_binary_number_serialconnect(d_T,in_data,'/');
+					/* ACK応答 */
+					TWCR = 0b11000101;
 
-				/* CRC受信待ち（ACKなし） */
-				while(!(TWCR & 0b10000000)	);
-				/* ACK応答 */
-				TWCR = 0b10000101;//nack応答
-				while(!(TWCR & 0b10000000)	);
+					/* CRC受信待ち（ACKなし） */
+					while(!(TWCR & 0b10000000)	);
+					/* ACK応答 */
+					TWCR = 0b10000101;//nack応答
+					while(!(TWCR & 0b10000000)	);
 
-				/* ************************** */
+					/* ************************** */
 
 				
 				
 
-				/* 通信終了 */
-				TWCR = 0b10010101;
-				/* STOが立つまで待つ */
-				while(!(TWCR & (1<<TWSTO))	);
+					/* 通信終了 */
+					TWCR = 0b10010101;
+					/* STOが立つまで待つ */
+					while(!(TWCR & (1<<TWSTO))	);
 				
-				/* 次の操作へ　→RTC設定前 */
-				ISR_cnt = 0;
-				progress = 5;
+					/* 次の操作へ　→RTC設定前 */
+					ISR_cnt = 0;
+					progress = 5;
+				}
 
 				break;
 
