@@ -82,7 +82,8 @@ ISR(TWI_vect)
 	char i2c_init[] = {0x38,0x39,0x14,0x70,0x52,0x6c,0x38,0x0c,0x01};
 
 	/* LCD表示データ */
-	char input_data[] = {0b10000000,(0x40|0b10000000),0b01000000,'0','0','0',0b10000000,(0x00|0b10000000),0b01000000,'0','0',':','0','0',' ','0','0'};
+	char input_data[] = {0b10000000,(0x40|0b10000000),0b01000000,'0','0','0'};
+	char input_data1[]= {0b10000000,(0x00|0b10000000),0b01000000,'0','0',':','0','0',' ','0','0'};
 		//コマンド送信,出力address（左下）,データ送信,文字コード,コマンド送信,出力address（左下）,データ送信,文字コード [9]=時刻二けた目
 		//0b10000000 | コマンド送信
 		//_________________________
@@ -205,6 +206,9 @@ ISR(TWI_vect)
 				unsigned char LCD_3;
 				unsigned char LCD_2;
 				unsigned char LCD_1;
+				
+				/* 行数指定 */
+				static unsigned char line = 2;
 				/* テストデータ */
 				
 				
@@ -220,89 +224,127 @@ ISR(TWI_vect)
 				//'0',文字型0+ 整数型変数で表示
 				//'0',文字型0+ 整数型変数で表示
 				//'0',文字型0+ 整数型変数で表示
-
-				while(init != 17)
+				if(line == 2)
 				{
-					//convert_to_binary_number_serialconnect(TWSR,in_data,'O');
-					/* 3桁目 */
-					if(init==3)
+					while(init != 6)
 					{
-						/* 3桁目表示 */
-						TWDR = input_data[init]+(d_T/100);
-						b = d_T/100;
-						d_T = d_T - (b*100);
-					}
+						//convert_to_binary_number_serialconnect(TWSR,in_data,'O');
+						/* 3桁目 */
+						if(init==3)
+						{
+							/* 3桁目表示 */
+							TWDR = input_data[init]+(d_T/100);
+							b = d_T/100;
+							d_T = d_T - (b*100);
+						}
 
-					/* 2桁目 */
-					else if(init==4)
-					{
-						TWDR = input_data[init]+(d_T/10);
-					}
+						/* 2桁目 */
+						else if(init==4)
+						{
+							TWDR = input_data[init]+(d_T/10);
+						}
 
-					/* 3桁目 */
-					else if(init==5)
-					{
-						TWDR = input_data[init]+(d_T%10);
-					}
-					
-					/* 時間2桁目 */
-					else if(init==9)
-					{
-						TWDR = input_data[init]+(hour_data/10);
-					}
-					
-					/* 時間1桁目 */
-					else if(init==10)
-					{
-						TWDR = input_data[init]+(hour_data%10);
-					}
-					
-					/* 分2桁目 */
-					else if(init==12)
-					{
-						TWDR = input_data[init]+(min_data/10);
-					}
-					
-					/* 分1桁目 */
-					else if(init==12)
-					{
-						TWDR = input_data[init]+(min_data%10);
-					}
-					
-					/* 秒2桁目 */
-					else if(init==12)
-					{
-						TWDR = input_data[init]+(sec_data/10);
-					}
-					
-					/* 秒1桁目 */
-					else if(init==12)
-					{
-						TWDR = input_data[init]+(sec_data%10);
-					}
+						/* 3桁目 */
+						else if(init==5)
+						{
+							TWDR = input_data[init]+(d_T%10);
+						}
+						
 
-					/* 上記以外の桁 */
-					else
-					{
-						TWDR = input_data[init];
+						/* 上記以外の桁 */
+						else
+						{
+							TWDR = input_data[init];
+							
+						}
+						TWCR = 0b10000101;
+						while(!(TWCR & 0b10000000)	);
+						convert_to_binary_number_serialconnect(progress,in_data,TWDR);
+						init++;
+						
 						
 					}
-					TWCR = 0b10000101;
-					while(!(TWCR & 0b10000000)	);
-					convert_to_binary_number_serialconnect(progress,in_data,TWDR);
-					init++;
+					init = 0;
+					line = 1;
+					
+					/* 次の操作へ　→1行目 */
+					progress = 1;
+					ISR_cnt = 0;
+					
+					/* 通信終了 */
+					TWCR = 0b10010101;
+					/* STOが立つまで待つ */
+					while(!(TWCR & (1<<TWSTO))	);
 				}
 				
-				init = 0;
+				else if(line == 1)
+				{
+					while(init != 6)
+					{
+						
+						
+						/* 時間2桁目 */
+						else if(init==9)
+						{
+							TWDR = input_data1[init]+(hour_data/10);
+						}
+						
+						/* 時間1桁目 */
+						else if(init==10)
+						{
+							TWDR = input_data1[init]+(hour_data%10);
+						}
+						
+						/* 分2桁目 */
+						else if(init==12)
+						{
+							TWDR = input_data1[init]+(min_data/10);
+						}
+						
+						/* 分1桁目 */
+						else if(init==12)
+						{
+							TWDR = input_data1[init]+(min_data%10);
+						}
+						
+						/* 秒2桁目 */
+						else if(init==12)
+						{
+							TWDR = input_data1[init]+(sec_data/10);
+						}
+						
+						/* 秒1桁目 */
+						else if(init==12)
+						{
+							TWDR = input_data1[init]+(sec_data%10);
+						}
 
-				/* 次の操作へ　→SHT	コマンド送信前 */
-				progress = 3;
-				ISR_cnt = 0;
-
-				/* 通信終了 */
-				TWCR = 0b10010101;
-				/* STOが立つまで待つ */
-				while(!(TWCR & (1<<TWSTO))	);
+						/* 上記以外の桁 */
+						else
+						{
+							TWDR = input_data1[init];
+							
+						}
+						TWCR = 0b10000101;
+						while(!(TWCR & 0b10000000)	);
+						convert_to_binary_number_serialconnect(progress,in_data,TWDR);
+						init++;
+						
+						
+					}
+					init = 0;
+					line = 1;
+					
+					/* 次の操作へ　→1行目 */
+					progress = 3;
+					ISR_cnt = 0;
+					
+					/* 通信終了 */
+					TWCR = 0b10010101;
+					/* STOが立つまで待つ */
+					while(!(TWCR & (1<<TWSTO))	);
+				}
+				
 			}
 
 			/* SHT	コマンド送信前 */
