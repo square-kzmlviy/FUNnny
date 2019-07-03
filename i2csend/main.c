@@ -412,6 +412,15 @@ int main(void)
 			
 			
 		}
+		
+		/* RTC設定前 */
+		else if(progress == 5 && ISR_cnt == 0){
+			convert_to_binary_number_serialconnect(progress,in_data,'P');
+			TWCR = 0b10100101;//フラグ下げ　開始 RTC設定
+			ISR_cnt = 1;
+			
+			
+		}
 
 	}
 	
