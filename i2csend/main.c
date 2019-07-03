@@ -508,18 +508,16 @@ ISR(TWI_vect)
 						/* ACK応答 */
 						TWCR = 0b11000101;
 
-					/* 次の操作へ　RTC受信前 */
-					ISR_cnt = 0;
-					progress = 6;
+					/* 次の操作へ　→LCD描画 */
+					ISR_cnt = 1;
+					progress = 3;
 
 					/* 通信終了 */
 					TWCR = 0b10010101;
 					/* STOが立つまで待つ */
 					while(!(TWCR & (1<<TWSTO))	);
 					
-					/* 次の操作へ　→LCD描画 */
-					ISR_cnt = 1;
-					progress = 5;
+					
 				}
 
 				break;
