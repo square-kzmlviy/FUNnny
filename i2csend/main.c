@@ -281,14 +281,26 @@ ISR(TWI_vect)
 			{
 				//アドレスの指定 control1
 				TWDR = 0x00;
-				TWCR = 0;
+				TWCR = 0b10000101;
 				while(!(TWCR & 0b10000000)	);
 				
 				
-				//
+				
 				//アドレスの指定 control2
 				TWDR = 0x01;
-				TWCR = 0;
+				TWCR = 0b10000101;
+				while(!(TWCR & 0b10000000)	);
+				
+				
+				//アドレスの指定 seconds
+				TWDR = 0x02;
+				TWCR = 0b10000101;
+				while(!(TWCR & 0b10000000)	);
+				
+				
+				//アドレスの指定 minutes
+				TWDR = 0x03;
+				TWCR = 0b10000101;;//30を指定
 				while(!(TWCR & 0b10000000)	);
 				
 
