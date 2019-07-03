@@ -388,8 +388,9 @@ ISR(TWI_vect)
 					while(!(TWCR & 0b10000000)	);				
 
 				/* 次の操作へ　RTC受信前 */
-				ISR_cnt = 0;
 				progress = 6;
+				ISR_cnt = 0;
+				
 
 				/* 通信終了 */
 				TWCR = 0b10010101;
@@ -464,8 +465,9 @@ ISR(TWI_vect)
 					/* ************************** */
 
 					/* 次の操作へ　→RTC設定前 */
-					ISR_cnt = 0;
 					progress = 5;
+					ISR_cnt = 0;
+					
 				
 
 					/* 通信終了 */
@@ -509,8 +511,9 @@ ISR(TWI_vect)
 						TWCR = 0b11000101;
 
 					/* 次の操作へ　→LCD描画 */
-					ISR_cnt = 1;
 					progress = 3;
+					ISR_cnt = 0;
+					
 
 					/* 通信終了 */
 					TWCR = 0b10010101;
