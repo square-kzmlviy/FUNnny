@@ -1,0 +1,814 @@
+
+i2csend.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000012  00800100  0000044c  000004e0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000044c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000009  00800112  00800112  000004f2  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000004f2  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000524  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000048  00000000  00000000  00000564  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000acc  00000000  00000000  000005ac  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000007c2  00000000  00000000  00001078  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000057c  00000000  00000000  0000183a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000108  00000000  00000000  00001db8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000047c  00000000  00000000  00001ec0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    0000041a  00000000  00000000  0000233c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000028  00000000  00000000  00002756  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 53 00 	jmp	0xa6	; 0xa6 <__vector_24>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	ec e4       	ldi	r30, 0x4C	; 76
+  7c:	f4 e0       	ldi	r31, 0x04	; 4
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a2 31       	cpi	r26, 0x12	; 18
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	21 e0       	ldi	r18, 0x01	; 1
+  8c:	a2 e1       	ldi	r26, 0x12	; 18
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	ab 31       	cpi	r26, 0x1B	; 27
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 73 01 	call	0x2e6	; 0x2e6 <main>
+  9e:	0c 94 24 02 	jmp	0x448	; 0x448 <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <__vector_24>:
+#include "stdSerialCOM.h"
+#include <avr/interrupt.h>  
+
+char in_data[8];
+ISR (TWI_vect)
+{
+  a6:	1f 92       	push	r1
+  a8:	0f 92       	push	r0
+  aa:	0f b6       	in	r0, 0x3f	; 63
+  ac:	0f 92       	push	r0
+  ae:	11 24       	eor	r1, r1
+  b0:	6f 92       	push	r6
+  b2:	7f 92       	push	r7
+  b4:	8f 92       	push	r8
+  b6:	9f 92       	push	r9
+  b8:	af 92       	push	r10
+  ba:	bf 92       	push	r11
+  bc:	cf 92       	push	r12
+  be:	df 92       	push	r13
+  c0:	ef 92       	push	r14
+  c2:	ff 92       	push	r15
+  c4:	0f 93       	push	r16
+  c6:	1f 93       	push	r17
+  c8:	2f 93       	push	r18
+  ca:	3f 93       	push	r19
+  cc:	4f 93       	push	r20
+  ce:	5f 93       	push	r21
+  d0:	6f 93       	push	r22
+  d2:	7f 93       	push	r23
+  d4:	8f 93       	push	r24
+  d6:	9f 93       	push	r25
+  d8:	af 93       	push	r26
+  da:	bf 93       	push	r27
+  dc:	ef 93       	push	r30
+  de:	ff 93       	push	r31
+  e0:	cf 93       	push	r28
+  e2:	df 93       	push	r29
+  e4:	cd b7       	in	r28, 0x3d	; 61
+  e6:	de b7       	in	r29, 0x3e	; 62
+  e8:	2d 97       	sbiw	r28, 0x0d	; 13
+  ea:	de bf       	out	0x3e, r29	; 62
+  ec:	cd bf       	out	0x3d, r28	; 61
+	char i2c_init[] = {0x38,0x39,0x14,0x70,0x52,0x6c,0x38,0x0c,0x01};
+  ee:	89 e0       	ldi	r24, 0x09	; 9
+  f0:	e0 e0       	ldi	r30, 0x00	; 0
+  f2:	f1 e0       	ldi	r31, 0x01	; 1
+  f4:	de 01       	movw	r26, r28
+  f6:	11 96       	adiw	r26, 0x01	; 1
+  f8:	01 90       	ld	r0, Z+
+  fa:	0d 92       	st	X+, r0
+  fc:	8a 95       	dec	r24
+  fe:	e1 f7       	brne	.-8      	; 0xf8 <__vector_24+0x52>
+	char input_data[] = {0b01000000,'A','V','R'};
+ 100:	80 e4       	ldi	r24, 0x40	; 64
+ 102:	8a 87       	std	Y+10, r24	; 0x0a
+ 104:	81 e4       	ldi	r24, 0x41	; 65
+ 106:	8b 87       	std	Y+11, r24	; 0x0b
+ 108:	86 e5       	ldi	r24, 0x56	; 86
+ 10a:	8c 87       	std	Y+12, r24	; 0x0c
+ 10c:	82 e5       	ldi	r24, 0x52	; 82
+ 10e:	8d 87       	std	Y+13, r24	; 0x0d
+	// 1 | lcd初期化済み
+	//----------------------
+	// 2 | lcd表示完了
+	//----------------------
+	
+	switch(TWSR & 0xF8)
+ 110:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7e00b9>
+ 114:	88 7f       	andi	r24, 0xF8	; 248
+ 116:	88 30       	cpi	r24, 0x08	; 8
+ 118:	19 f0       	breq	.+6      	; 0x120 <__vector_24+0x7a>
+ 11a:	88 31       	cpi	r24, 0x18	; 24
+ 11c:	01 f1       	breq	.+64     	; 0x15e <__vector_24+0xb8>
+ 11e:	be c0       	rjmp	.+380    	; 0x29c <__vector_24+0x1f6>
+	{
+		/**** 開始条件放出 ****/
+		
+		case 0x08:
+			if(progress == 2)break;
+ 120:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 124:	82 30       	cpi	r24, 0x02	; 2
+ 126:	09 f4       	brne	.+2      	; 0x12a <__vector_24+0x84>
+ 128:	b9 c0       	rjmp	.+370    	; 0x29c <__vector_24+0x1f6>
+			convert_to_binary_number_serialconnect(TWSR,in_data,'A');
+ 12a:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7e00b9>
+ 12e:	41 e4       	ldi	r20, 0x41	; 65
+ 130:	63 e1       	ldi	r22, 0x13	; 19
+ 132:	71 e0       	ldi	r23, 0x01	; 1
+ 134:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+			
+			
+			/**** SLA+W AQM0802のアドレス ****/
+			TWDR = 0x7C;
+ 138:	8c e7       	ldi	r24, 0x7C	; 124
+ 13a:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7e00bb>
+			TWCR = 0b10000101;
+ 13e:	85 e8       	ldi	r24, 0x85	; 133
+ 140:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7e00bc>
+			while(!(TWCR & 0b10000000)	);
+ 144:	ec eb       	ldi	r30, 0xBC	; 188
+ 146:	f0 e0       	ldi	r31, 0x00	; 0
+ 148:	80 81       	ld	r24, Z
+ 14a:	88 23       	and	r24, r24
+ 14c:	ec f7       	brge	.-6      	; 0x148 <__vector_24+0xa2>
+			convert_to_binary_number_serialconnect(TWSR,in_data,'B');
+ 14e:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7e00b9>
+ 152:	42 e4       	ldi	r20, 0x42	; 66
+ 154:	63 e1       	ldi	r22, 0x13	; 19
+ 156:	71 e0       	ldi	r23, 0x01	; 1
+ 158:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+			break;
+ 15c:	9f c0       	rjmp	.+318    	; 0x29c <__vector_24+0x1f6>
+			
+		
+		/**** SLA+w ACK受信 ****/
+		case 0x18:
+			convert_to_binary_number_serialconnect(TWSR,in_data,'C');
+ 15e:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7e00b9>
+ 162:	43 e4       	ldi	r20, 0x43	; 67
+ 164:	63 e1       	ldi	r22, 0x13	; 19
+ 166:	71 e0       	ldi	r23, 0x01	; 1
+ 168:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+			//----------------------
+			// 0 | lcd初期化前
+			//----------------------
+			if(progress==0)
+ 16c:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 170:	81 11       	cpse	r24, r1
+ 172:	51 c0       	rjmp	.+162    	; 0x216 <__vector_24+0x170>
+			{
+				convert_to_binary_number_serialconnect(TWSR,in_data,'D');		
+ 174:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7e00b9>
+ 178:	44 e4       	ldi	r20, 0x44	; 68
+ 17a:	63 e1       	ldi	r22, 0x13	; 19
+ 17c:	71 e0       	ldi	r23, 0x01	; 1
+ 17e:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+ 182:	ce 01       	movw	r24, r28
+ 184:	01 96       	adiw	r24, 0x01	; 1
+ 186:	6c 01       	movw	r12, r24
+ 188:	0f 2e       	mov	r0, r31
+ 18a:	f5 e4       	ldi	r31, 0x45	; 69
+ 18c:	ff 2e       	mov	r15, r31
+ 18e:	f0 2d       	mov	r31, r0
+				/**** SLD+W LCD初期化 ****/
+				while(init != 9)
+				{
+					TWDR =  i2c_init[init];
+ 190:	0f 2e       	mov	r0, r31
+ 192:	fb eb       	ldi	r31, 0xBB	; 187
+ 194:	8f 2e       	mov	r8, r31
+ 196:	91 2c       	mov	r9, r1
+ 198:	f0 2d       	mov	r31, r0
+					TWCR = 0b10000100;
+ 19a:	0c eb       	ldi	r16, 0xBC	; 188
+ 19c:	10 e0       	ldi	r17, 0x00	; 0
+ 19e:	0f 2e       	mov	r0, r31
+ 1a0:	f4 e8       	ldi	r31, 0x84	; 132
+ 1a2:	ef 2e       	mov	r14, r31
+ 1a4:	f0 2d       	mov	r31, r0
+					while(!(TWCR & 0b10000000)	);
+					if(i2c_init[init] == 0x52)_delay_ms(200);
+					init++;
+					convert_to_binary_number_serialconnect(TWSR,in_data,'D'+init);	
+ 1a6:	0f 2e       	mov	r0, r31
+ 1a8:	f9 eb       	ldi	r31, 0xB9	; 185
+ 1aa:	af 2e       	mov	r10, r31
+ 1ac:	b1 2c       	mov	r11, r1
+ 1ae:	f0 2d       	mov	r31, r0
+ 1b0:	f6 01       	movw	r30, r12
+			{
+				convert_to_binary_number_serialconnect(TWSR,in_data,'D');		
+				/**** SLD+W LCD初期化 ****/
+				while(init != 9)
+				{
+					TWDR =  i2c_init[init];
+ 1b2:	80 81       	ld	r24, Z
+ 1b4:	d4 01       	movw	r26, r8
+ 1b6:	8c 93       	st	X, r24
+					TWCR = 0b10000100;
+ 1b8:	d8 01       	movw	r26, r16
+ 1ba:	ec 92       	st	X, r14
+					while(!(TWCR & 0b10000000)	);
+ 1bc:	d8 01       	movw	r26, r16
+ 1be:	8c 91       	ld	r24, X
+ 1c0:	88 23       	and	r24, r24
+ 1c2:	e4 f7       	brge	.-8      	; 0x1bc <__vector_24+0x116>
+ 1c4:	bf ef       	ldi	r27, 0xFF	; 255
+ 1c6:	cb 1a       	sub	r12, r27
+ 1c8:	db 0a       	sbc	r13, r27
+					if(i2c_init[init] == 0x52)_delay_ms(200);
+ 1ca:	80 81       	ld	r24, Z
+ 1cc:	82 35       	cpi	r24, 0x52	; 82
+ 1ce:	31 f4       	brne	.+12     	; 0x1dc <__vector_24+0x136>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1d0:	ef e4       	ldi	r30, 0x4F	; 79
+ 1d2:	f3 ec       	ldi	r31, 0xC3	; 195
+ 1d4:	31 97       	sbiw	r30, 0x01	; 1
+ 1d6:	f1 f7       	brne	.-4      	; 0x1d4 <__vector_24+0x12e>
+ 1d8:	00 c0       	rjmp	.+0      	; 0x1da <__vector_24+0x134>
+ 1da:	00 00       	nop
+					init++;
+					convert_to_binary_number_serialconnect(TWSR,in_data,'D'+init);	
+ 1dc:	d5 01       	movw	r26, r10
+ 1de:	8c 91       	ld	r24, X
+ 1e0:	4f 2d       	mov	r20, r15
+ 1e2:	63 e1       	ldi	r22, 0x13	; 19
+ 1e4:	71 e0       	ldi	r23, 0x01	; 1
+ 1e6:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+ 1ea:	f3 94       	inc	r15
+			//----------------------
+			if(progress==0)
+			{
+				convert_to_binary_number_serialconnect(TWSR,in_data,'D');		
+				/**** SLD+W LCD初期化 ****/
+				while(init != 9)
+ 1ec:	be e4       	ldi	r27, 0x4E	; 78
+ 1ee:	fb 12       	cpse	r15, r27
+ 1f0:	df cf       	rjmp	.-66     	; 0x1b0 <__vector_24+0x10a>
+					init++;
+					convert_to_binary_number_serialconnect(TWSR,in_data,'D'+init);	
+				}
+				init = 0;
+				
+				progress = 1;
+ 1f2:	81 e0       	ldi	r24, 0x01	; 1
+ 1f4:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <__data_end>
+				convert_to_binary_number_serialconnect(progress,in_data,'P');	
+ 1f8:	40 e5       	ldi	r20, 0x50	; 80
+ 1fa:	63 e1       	ldi	r22, 0x13	; 19
+ 1fc:	71 e0       	ldi	r23, 0x01	; 1
+ 1fe:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+				TWCR = 0b10010101;//フラグ下げ　通信終了
+ 202:	85 e9       	ldi	r24, 0x95	; 149
+ 204:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7e00bc>
+ 208:	e3 ec       	ldi	r30, 0xC3	; 195
+ 20a:	f9 e0       	ldi	r31, 0x09	; 9
+ 20c:	31 97       	sbiw	r30, 0x01	; 1
+ 20e:	f1 f7       	brne	.-4      	; 0x20c <__vector_24+0x166>
+ 210:	00 c0       	rjmp	.+0      	; 0x212 <__vector_24+0x16c>
+ 212:	00 00       	nop
+ 214:	43 c0       	rjmp	.+134    	; 0x29c <__vector_24+0x1f6>
+			}
+			
+			//----------------------
+			// 1 | lcd初期化済み
+			//----------------------
+			else if(progress==1)
+ 216:	81 30       	cpi	r24, 0x01	; 1
+ 218:	09 f0       	breq	.+2      	; 0x21c <__vector_24+0x176>
+ 21a:	40 c0       	rjmp	.+128    	; 0x29c <__vector_24+0x1f6>
+			{
+				convert_to_binary_number_serialconnect(progress,in_data,'p');	
+ 21c:	40 e7       	ldi	r20, 0x70	; 112
+ 21e:	63 e1       	ldi	r22, 0x13	; 19
+ 220:	71 e0       	ldi	r23, 0x01	; 1
+ 222:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+ 226:	8e 01       	movw	r16, r28
+ 228:	06 5f       	subi	r16, 0xF6	; 246
+ 22a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 22c:	5e 01       	movw	r10, r28
+ 22e:	fe e0       	ldi	r31, 0x0E	; 14
+ 230:	af 0e       	add	r10, r31
+ 232:	b1 1c       	adc	r11, r1
+				
+				/**** SLD+W LCD初期化 ****/
+				while(init != 4)
+				{
+					convert_to_binary_number_serialconnect(TWSR,in_data,input_data[init]);	
+ 234:	0f 2e       	mov	r0, r31
+ 236:	f9 eb       	ldi	r31, 0xB9	; 185
+ 238:	ef 2e       	mov	r14, r31
+ 23a:	f1 2c       	mov	r15, r1
+ 23c:	f0 2d       	mov	r31, r0
+					TWDR = input_data[init];
+ 23e:	0f 2e       	mov	r0, r31
+ 240:	fb eb       	ldi	r31, 0xBB	; 187
+ 242:	cf 2e       	mov	r12, r31
+ 244:	d1 2c       	mov	r13, r1
+ 246:	f0 2d       	mov	r31, r0
+					TWCR = 0b10000100;
+ 248:	0f 2e       	mov	r0, r31
+ 24a:	fc eb       	ldi	r31, 0xBC	; 188
+ 24c:	8f 2e       	mov	r8, r31
+ 24e:	91 2c       	mov	r9, r1
+ 250:	f0 2d       	mov	r31, r0
+ 252:	0f 2e       	mov	r0, r31
+ 254:	f4 e8       	ldi	r31, 0x84	; 132
+ 256:	6f 2e       	mov	r6, r31
+ 258:	f0 2d       	mov	r31, r0
+				convert_to_binary_number_serialconnect(progress,in_data,'p');	
+				
+				/**** SLD+W LCD初期化 ****/
+				while(init != 4)
+				{
+					convert_to_binary_number_serialconnect(TWSR,in_data,input_data[init]);	
+ 25a:	d8 01       	movw	r26, r16
+ 25c:	7d 90       	ld	r7, X+
+ 25e:	8d 01       	movw	r16, r26
+ 260:	f7 01       	movw	r30, r14
+ 262:	80 81       	ld	r24, Z
+ 264:	47 2d       	mov	r20, r7
+ 266:	63 e1       	ldi	r22, 0x13	; 19
+ 268:	71 e0       	ldi	r23, 0x01	; 1
+ 26a:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+					TWDR = input_data[init];
+ 26e:	d6 01       	movw	r26, r12
+ 270:	7c 92       	st	X, r7
+					TWCR = 0b10000100;
+ 272:	f4 01       	movw	r30, r8
+ 274:	60 82       	st	Z, r6
+					while(!(TWCR & 0b10000000)	);
+ 276:	d4 01       	movw	r26, r8
+ 278:	8c 91       	ld	r24, X
+ 27a:	88 23       	and	r24, r24
+ 27c:	e4 f7       	brge	.-8      	; 0x276 <__vector_24+0x1d0>
+			else if(progress==1)
+			{
+				convert_to_binary_number_serialconnect(progress,in_data,'p');	
+				
+				/**** SLD+W LCD初期化 ****/
+				while(init != 4)
+ 27e:	0a 15       	cp	r16, r10
+ 280:	1b 05       	cpc	r17, r11
+ 282:	59 f7       	brne	.-42     	; 0x25a <__vector_24+0x1b4>
+					TWCR = 0b10000100;
+					while(!(TWCR & 0b10000000)	);
+					init++;
+				}
+				
+				progress = 2;
+ 284:	82 e0       	ldi	r24, 0x02	; 2
+ 286:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <__data_end>
+				TWCR = 0b10010101;//フラグ下げ　通信終了
+ 28a:	85 e9       	ldi	r24, 0x95	; 149
+ 28c:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7e00bc>
+ 290:	e3 ec       	ldi	r30, 0xC3	; 195
+ 292:	f9 e0       	ldi	r31, 0x09	; 9
+ 294:	31 97       	sbiw	r30, 0x01	; 1
+ 296:	f1 f7       	brne	.-4      	; 0x294 <__vector_24+0x1ee>
+ 298:	00 c0       	rjmp	.+0      	; 0x29a <__vector_24+0x1f4>
+ 29a:	00 00       	nop
+		default:
+			break;
+		
+	}	
+	
+}
+ 29c:	2d 96       	adiw	r28, 0x0d	; 13
+ 29e:	0f b6       	in	r0, 0x3f	; 63
+ 2a0:	f8 94       	cli
+ 2a2:	de bf       	out	0x3e, r29	; 62
+ 2a4:	0f be       	out	0x3f, r0	; 63
+ 2a6:	cd bf       	out	0x3d, r28	; 61
+ 2a8:	df 91       	pop	r29
+ 2aa:	cf 91       	pop	r28
+ 2ac:	ff 91       	pop	r31
+ 2ae:	ef 91       	pop	r30
+ 2b0:	bf 91       	pop	r27
+ 2b2:	af 91       	pop	r26
+ 2b4:	9f 91       	pop	r25
+ 2b6:	8f 91       	pop	r24
+ 2b8:	7f 91       	pop	r23
+ 2ba:	6f 91       	pop	r22
+ 2bc:	5f 91       	pop	r21
+ 2be:	4f 91       	pop	r20
+ 2c0:	3f 91       	pop	r19
+ 2c2:	2f 91       	pop	r18
+ 2c4:	1f 91       	pop	r17
+ 2c6:	0f 91       	pop	r16
+ 2c8:	ff 90       	pop	r15
+ 2ca:	ef 90       	pop	r14
+ 2cc:	df 90       	pop	r13
+ 2ce:	cf 90       	pop	r12
+ 2d0:	bf 90       	pop	r11
+ 2d2:	af 90       	pop	r10
+ 2d4:	9f 90       	pop	r9
+ 2d6:	8f 90       	pop	r8
+ 2d8:	7f 90       	pop	r7
+ 2da:	6f 90       	pop	r6
+ 2dc:	0f 90       	pop	r0
+ 2de:	0f be       	out	0x3f, r0	; 63
+ 2e0:	0f 90       	pop	r0
+ 2e2:	1f 90       	pop	r1
+ 2e4:	18 95       	reti
+
+000002e6 <main>:
+int main(void)
+{
+	
+	int t1_sw;//sw1_input
+	t1_sw = 0;
+	DDRB  = 0b00000000;//
+ 2e6:	14 b8       	out	0x04, r1	; 4
+	PORTB = 0B00000010;//	PB1 PUR_ON
+ 2e8:	82 e0       	ldi	r24, 0x02	; 2
+ 2ea:	85 b9       	out	0x05, r24	; 5
+	
+	TWBR  = 0b11111111;//SCL 周波数
+ 2ec:	8f ef       	ldi	r24, 0xFF	; 255
+ 2ee:	80 93 b8 00 	sts	0x00B8, r24	; 0x8000b8 <__TEXT_REGION_LENGTH__+0x7e00b8>
+	TWSR  = 0b00000000;//1.9kHz
+ 2f2:	e9 eb       	ldi	r30, 0xB9	; 185
+ 2f4:	f0 e0       	ldi	r31, 0x00	; 0
+ 2f6:	10 82       	st	Z, r1
+	
+	
+	UCSR0A = 0b00000000;
+ 2f8:	10 92 c0 00 	sts	0x00C0, r1	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7e00c0>
+	UCSR0B = 0b00011000;
+ 2fc:	88 e1       	ldi	r24, 0x18	; 24
+ 2fe:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7e00c1>
+	UCSR0C = 0b00000110;
+ 302:	86 e0       	ldi	r24, 0x06	; 6
+ 304:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7e00c2>
+	UBRR0 = 25;
+ 308:	89 e1       	ldi	r24, 0x19	; 25
+ 30a:	90 e0       	ldi	r25, 0x00	; 0
+ 30c:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7e00c5>
+ 310:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7e00c4>
+	int buf1;
+	char Data_name=' ';
+	char flag = 0;
+	sei();
+ 314:	78 94       	sei
+	
+    /* Replace with your application code */
+    
+
+
+		t1_sw = ~PINB & 0b00000010;
+ 316:	83 b1       	in	r24, 0x03	; 3
+		if(1)
+		{
+
+
+			//--通信開始--//
+			convert_to_binary_number_serialconnect(TWSR,in_data,'a');
+ 318:	80 81       	ld	r24, Z
+ 31a:	41 e6       	ldi	r20, 0x61	; 97
+ 31c:	63 e1       	ldi	r22, 0x13	; 19
+ 31e:	71 e0       	ldi	r23, 0x01	; 1
+ 320:	0e 94 a5 01 	call	0x34a	; 0x34a <convert_to_binary_number_serialconnect>
+			TWCR = 0b10100101;//フラグ下げ　開始　twi有効
+ 324:	85 ea       	ldi	r24, 0xA5	; 165
+ 326:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7e00bc>
+			while(!(TWCR & 0b10000000)	);
+ 32a:	ec eb       	ldi	r30, 0xBC	; 188
+ 32c:	f0 e0       	ldi	r31, 0x00	; 0
+ 32e:	80 81       	ld	r24, Z
+ 330:	88 23       	and	r24, r24
+ 332:	ec f7       	brge	.-6      	; 0x32e <main+0x48>
+			
+		}
+			
+	while (1){
+		
+			TWSR = 0b00000000;	
+ 334:	a9 eb       	ldi	r26, 0xB9	; 185
+ 336:	b0 e0       	ldi	r27, 0x00	; 0
+			TWCR = 0b10100101;//フラグ下げ　開始　twi有効
+ 338:	ec eb       	ldi	r30, 0xBC	; 188
+ 33a:	f0 e0       	ldi	r31, 0x00	; 0
+ 33c:	95 ea       	ldi	r25, 0xA5	; 165
+			
+		}
+			
+	while (1){
+		
+			TWSR = 0b00000000;	
+ 33e:	1c 92       	st	X, r1
+			TWCR = 0b10100101;//フラグ下げ　開始　twi有効
+ 340:	90 83       	st	Z, r25
+			while(!(TWCR & 0b10000000)	);
+ 342:	80 81       	ld	r24, Z
+ 344:	88 23       	and	r24, r24
+ 346:	ec f7       	brge	.-6      	; 0x342 <main+0x5c>
+ 348:	fa cf       	rjmp	.-12     	; 0x33e <main+0x58>
+
+0000034a <convert_to_binary_number_serialconnect>:
+
+#include <avr/io.h>
+//#include "stdSerialCOM.h"
+/***1.data 2.beffer 3.uniquechar ************************/
+void convert_to_binary_number_serialconnect(unsigned char data, char *math,unsigned char data_name)
+{
+ 34a:	0f 93       	push	r16
+ 34c:	1f 93       	push	r17
+ 34e:	cf 93       	push	r28
+ 350:	df 93       	push	r29
+ 352:	cd b7       	in	r28, 0x3d	; 61
+ 354:	de b7       	in	r29, 0x3e	; 62
+ 356:	2c 97       	sbiw	r28, 0x0c	; 12
+ 358:	0f b6       	in	r0, 0x3f	; 63
+ 35a:	f8 94       	cli
+ 35c:	de bf       	out	0x3e, r29	; 62
+ 35e:	0f be       	out	0x3f, r0	; 63
+ 360:	cd bf       	out	0x3d, r28	; 61
+	char cnt;
+	char ans;
+	char buf[9] = "00000000";
+ 362:	99 e0       	ldi	r25, 0x09	; 9
+ 364:	e9 e0       	ldi	r30, 0x09	; 9
+ 366:	f1 e0       	ldi	r31, 0x01	; 1
+ 368:	de 01       	movw	r26, r28
+ 36a:	11 96       	adiw	r26, 0x01	; 1
+ 36c:	01 90       	ld	r0, Z+
+ 36e:	0d 92       	st	X+, r0
+ 370:	9a 95       	dec	r25
+ 372:	e1 f7       	brne	.-8      	; 0x36c <convert_to_binary_number_serialconnect+0x22>
+	char j;
+	char bin[3] = "0b";
+ 374:	20 e3       	ldi	r18, 0x30	; 48
+ 376:	32 e6       	ldi	r19, 0x62	; 98
+ 378:	3b 87       	std	Y+11, r19	; 0x0b
+ 37a:	2a 87       	std	Y+10, r18	; 0x0a
+ 37c:	1c 86       	std	Y+12, r1	; 0x0c
+ 37e:	8b 01       	movw	r16, r22
+ 380:	fb 01       	movw	r30, r22
+ 382:	38 96       	adiw	r30, 0x08	; 8
+ 384:	db 01       	movw	r26, r22
+	ans = 0;
+	cnt = 0;
+	for (j = 0; j <= 7; j++)
+	{
+		*(math+j) = 0;
+ 386:	1d 92       	st	X+, r1
+	char buf[9] = "00000000";
+	char j;
+	char bin[3] = "0b";
+	ans = 0;
+	cnt = 0;
+	for (j = 0; j <= 7; j++)
+ 388:	ae 17       	cp	r26, r30
+ 38a:	bf 07       	cpc	r27, r31
+ 38c:	e1 f7       	brne	.-8      	; 0x386 <convert_to_binary_number_serialconnect+0x3c>
+	{
+		*(math+j) = 0;
+	}
+
+	while (data != 0)//最後の演算が０or1
+ 38e:	88 23       	and	r24, r24
+ 390:	59 f0       	breq	.+22     	; 0x3a8 <convert_to_binary_number_serialconnect+0x5e>
+ 392:	90 e0       	ldi	r25, 0x00	; 0
+	{
+		*(math + cnt) = data % 2;//余りを出す
+ 394:	db 01       	movw	r26, r22
+ 396:	a9 0f       	add	r26, r25
+ 398:	b1 1d       	adc	r27, r1
+ 39a:	28 2f       	mov	r18, r24
+ 39c:	21 70       	andi	r18, 0x01	; 1
+ 39e:	2c 93       	st	X, r18
+		//printf("bit[%d] %% 2=%d\n", cnt,*(math + cnt));
+		data = data / 2;//実際に割る
+ 3a0:	86 95       	lsr	r24
+		//printf("data / 2=%d\n", data);
+		cnt++;//address加算
+ 3a2:	9f 5f       	subi	r25, 0xFF	; 255
+	for (j = 0; j <= 7; j++)
+	{
+		*(math+j) = 0;
+	}
+
+	while (data != 0)//最後の演算が０or1
+ 3a4:	81 11       	cpse	r24, r1
+ 3a6:	f6 cf       	rjmp	.-20     	; 0x394 <convert_to_binary_number_serialconnect+0x4a>
+		//printf("data / 2=%d\n", data);
+		cnt++;//address加算
+
+	}
+	//*(math + cnt) = ans;
+		while (!(UCSR0A & 0b00100000));
+ 3a8:	a0 ec       	ldi	r26, 0xC0	; 192
+ 3aa:	b0 e0       	ldi	r27, 0x00	; 0
+ 3ac:	8c 91       	ld	r24, X
+ 3ae:	85 ff       	sbrs	r24, 5
+ 3b0:	fd cf       	rjmp	.-6      	; 0x3ac <convert_to_binary_number_serialconnect+0x62>
+		UDR0 = data_name;
+ 3b2:	40 93 c6 00 	sts	0x00C6, r20	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 3b6:	be 01       	movw	r22, r28
+ 3b8:	6f 5f       	subi	r22, 0xFF	; 255
+ 3ba:	7f 4f       	sbci	r23, 0xFF	; 255
+ 3bc:	9b 01       	movw	r18, r22
+	for (j = 0; j <= 7; j++)
+	{
+		*(buf + j) = *( math + (7 - j) ) + '0';
+ 3be:	82 91       	ld	r24, -Z
+ 3c0:	80 5d       	subi	r24, 0xD0	; 208
+ 3c2:	d9 01       	movw	r26, r18
+ 3c4:	8d 93       	st	X+, r24
+ 3c6:	9d 01       	movw	r18, r26
+
+	}
+	//*(math + cnt) = ans;
+		while (!(UCSR0A & 0b00100000));
+		UDR0 = data_name;
+	for (j = 0; j <= 7; j++)
+ 3c8:	0e 17       	cp	r16, r30
+ 3ca:	1f 07       	cpc	r17, r31
+ 3cc:	c1 f7       	brne	.-16     	; 0x3be <convert_to_binary_number_serialconnect+0x74>
+	{
+		*(buf + j) = *( math + (7 - j) ) + '0';
+		//printf("buf[%d] = math[%d]\n", j, 7 - j);
+	}
+	for (j = 0; j <= 1; j++) {
+		while (!(UCSR0A & 0b00100000));
+ 3ce:	e0 ec       	ldi	r30, 0xC0	; 192
+ 3d0:	f0 e0       	ldi	r31, 0x00	; 0
+ 3d2:	80 81       	ld	r24, Z
+ 3d4:	85 ff       	sbrs	r24, 5
+ 3d6:	fd cf       	rjmp	.-6      	; 0x3d2 <convert_to_binary_number_serialconnect+0x88>
+		UDR0 = *(bin + j);
+ 3d8:	8a 85       	ldd	r24, Y+10	; 0x0a
+ 3da:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+	{
+		*(buf + j) = *( math + (7 - j) ) + '0';
+		//printf("buf[%d] = math[%d]\n", j, 7 - j);
+	}
+	for (j = 0; j <= 1; j++) {
+		while (!(UCSR0A & 0b00100000));
+ 3de:	e0 ec       	ldi	r30, 0xC0	; 192
+ 3e0:	f0 e0       	ldi	r31, 0x00	; 0
+ 3e2:	80 81       	ld	r24, Z
+ 3e4:	85 ff       	sbrs	r24, 5
+ 3e6:	fd cf       	rjmp	.-6      	; 0x3e2 <convert_to_binary_number_serialconnect+0x98>
+		UDR0 = *(bin + j);
+ 3e8:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 3ea:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+ 3ee:	ae 01       	movw	r20, r28
+ 3f0:	47 5f       	subi	r20, 0xF7	; 247
+ 3f2:	5f 4f       	sbci	r21, 0xFF	; 255
+		//printf("%c", *(bin + j));
+	}
+	for (j = 0; j <= 7; j++)
+	{
+		while (!(UCSR0A & 0b00100000));
+ 3f4:	e0 ec       	ldi	r30, 0xC0	; 192
+ 3f6:	f0 e0       	ldi	r31, 0x00	; 0
+		UDR0 = *(buf + j);
+ 3f8:	26 ec       	ldi	r18, 0xC6	; 198
+ 3fa:	30 e0       	ldi	r19, 0x00	; 0
+		UDR0 = *(bin + j);
+		//printf("%c", *(bin + j));
+	}
+	for (j = 0; j <= 7; j++)
+	{
+		while (!(UCSR0A & 0b00100000));
+ 3fc:	80 81       	ld	r24, Z
+ 3fe:	85 ff       	sbrs	r24, 5
+ 400:	fd cf       	rjmp	.-6      	; 0x3fc <convert_to_binary_number_serialconnect+0xb2>
+		UDR0 = *(buf + j);
+ 402:	db 01       	movw	r26, r22
+ 404:	8d 91       	ld	r24, X+
+ 406:	bd 01       	movw	r22, r26
+ 408:	d9 01       	movw	r26, r18
+ 40a:	8c 93       	st	X, r24
+	for (j = 0; j <= 1; j++) {
+		while (!(UCSR0A & 0b00100000));
+		UDR0 = *(bin + j);
+		//printf("%c", *(bin + j));
+	}
+	for (j = 0; j <= 7; j++)
+ 40c:	46 17       	cp	r20, r22
+ 40e:	57 07       	cpc	r21, r23
+ 410:	a9 f7       	brne	.-22     	; 0x3fc <convert_to_binary_number_serialconnect+0xb2>
+		while (!(UCSR0A & 0b00100000));
+		UDR0 = *(buf + j);
+		//printf("%c", *(buf + j) );
+	}
+	
+	while(!(UCSR0A & 0b00100000));
+ 412:	e0 ec       	ldi	r30, 0xC0	; 192
+ 414:	f0 e0       	ldi	r31, 0x00	; 0
+ 416:	80 81       	ld	r24, Z
+ 418:	85 ff       	sbrs	r24, 5
+ 41a:	fd cf       	rjmp	.-6      	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
+	UDR0 = '\n';
+ 41c:	8a e0       	ldi	r24, 0x0A	; 10
+ 41e:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+	while(!(UCSR0A & 0b00100000));
+ 422:	e0 ec       	ldi	r30, 0xC0	; 192
+ 424:	f0 e0       	ldi	r31, 0x00	; 0
+ 426:	80 81       	ld	r24, Z
+ 428:	85 ff       	sbrs	r24, 5
+ 42a:	fd cf       	rjmp	.-6      	; 0x426 <__LOCK_REGION_LENGTH__+0x26>
+	UDR0 = '\r';
+ 42c:	8d e0       	ldi	r24, 0x0D	; 13
+ 42e:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
+
+}
+ 432:	2c 96       	adiw	r28, 0x0c	; 12
+ 434:	0f b6       	in	r0, 0x3f	; 63
+ 436:	f8 94       	cli
+ 438:	de bf       	out	0x3e, r29	; 62
+ 43a:	0f be       	out	0x3f, r0	; 63
+ 43c:	cd bf       	out	0x3d, r28	; 61
+ 43e:	df 91       	pop	r29
+ 440:	cf 91       	pop	r28
+ 442:	1f 91       	pop	r17
+ 444:	0f 91       	pop	r16
+ 446:	08 95       	ret
+
+00000448 <_exit>:
+ 448:	f8 94       	cli
+
+0000044a <__stop_program>:
+ 44a:	ff cf       	rjmp	.-2      	; 0x44a <__stop_program>
